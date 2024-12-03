@@ -17,7 +17,7 @@ import { toast } from "@/hooks/use-toast";
 
 export default function PasswordGenerator() {
   const [password, setPassword] = useState("");
-  const [length, setLength] = useState(12);
+  const [length, setLength] = useState(6);
   const [includeUppercase, setIncludeUppercase] = useState(false);
   const [includeLowercase, setIncludeLowercase] = useState(false);
   const [includeNumbers, setIncludeNumbers] = useState(false);
@@ -57,15 +57,27 @@ export default function PasswordGenerator() {
   };
 
   return (
-    <Card className="w-full max-w-md mx-auto ">
-      <CardHeader>
-        <CardTitle>Password Generator</CardTitle>
-        <CardDescription>
+    <Card className="w-full max-w-md px-4 py-6 md:px-8 lg:max-w-lg">
+      <CardHeader className="text-center">
+        <CardTitle className="text-lg md:text-xl">Password Generator</CardTitle>
+        <CardDescription className="text-sm md:text-base">
           Generate a secure password based on your preferences
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="space-y-4">
+        <div className="space-y-6">
+          <div>
+            <Label htmlFor="generated-password">Generated Password</Label>
+            <Input
+              id="generated-password"
+              type="text"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full font-mono"
+              placeholder="Your password will appear here"
+
+            />
+          </div>
           <div>
             <Label htmlFor="length">Password Length</Label>
             <Input
@@ -74,49 +86,52 @@ export default function PasswordGenerator() {
               value={length}
               onChange={(e) => setLength(Number(e.target.value))}
               min="4"
-              max="50"
+              max="20"
+              className="w-full"
             />
           </div>
-          <div className="flex items-center justify-between">
-            <Label htmlFor="uppercase">Include Uppercase</Label>
-            <Switch
-              id="uppercase"
-              checked={includeUppercase}
-              onCheckedChange={setIncludeUppercase}
-            />
+          <div className="space-y-2 md:space-y-0 md:grid md:grid-cols-2 gap-4">
+            <div className="flex items-center justify-between">
+              <Label htmlFor="uppercase">Include Uppercase</Label>
+              <Switch
+                id="uppercase"
+                checked={includeUppercase}
+                onCheckedChange={setIncludeUppercase}
+              />
+            </div>
+            <div className="flex items-center justify-between">
+              <Label htmlFor="lowercase">Include Lowercase</Label>
+              <Switch
+                id="lowercase"
+                checked={includeLowercase}
+                onCheckedChange={setIncludeLowercase}
+              />
+            </div>
+            <div className="flex items-center justify-between">
+              <Label htmlFor="numbers">Include Numbers</Label>
+              <Switch
+                id="numbers"
+                checked={includeNumbers}
+                onCheckedChange={setIncludeNumbers}
+              />
+            </div>
+            <div className="flex items-center justify-between">
+              <Label htmlFor="special">Include Special Characters</Label>
+              <Switch
+                id="special"
+                checked={includeSpecialChars}
+                onCheckedChange={setIncludeSpecialChars}
+              />
+            </div>
           </div>
-          <div className="flex items-center justify-between">
-            <Label htmlFor="lowercase">Include Lowercase</Label>
-            <Switch
-              id="lowercase"
-              checked={includeLowercase}
-              onCheckedChange={setIncludeLowercase}
-            />
-          </div>
-          <div className="flex items-center justify-between">
-            <Label htmlFor="numbers">Include Numbers</Label>
-            <Switch
-              id="numbers"
-              checked={includeNumbers}
-              onCheckedChange={setIncludeNumbers}
-            />
-          </div>
-          <div className="flex items-center justify-between">
-            <Label htmlFor="special">Include Special Characters</Label>
-            <Switch
-              id="special"
-              checked={includeSpecialChars}
-              onCheckedChange={setIncludeSpecialChars}
-            />
-          </div>
-          <div className="flex space-x-2">
-            <Button onClick={generatePassword} className="flex-1">
+          <div className="flex flex-col md:flex-row gap-4">
+            <Button onClick={generatePassword} className="w-full md:flex-1">
               Generate Password
             </Button>
             <Button
               onClick={copyToClipboard}
               variant="outline"
-              className="flex-none"
+              className="w-full md:w-auto"
               disabled={!password}
             >
               {copied ? (
@@ -126,20 +141,6 @@ export default function PasswordGenerator() {
               )}
               Copy
             </Button>
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="generated-password">Generated Password</Label>
-            <div className="flex">
-              <Input
-                id="generated-password"
-                type={ "text" }
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="font-mono rounded-r-none"
-                placeholder="Your password will appear here"
-              />
-            
-            </div>
           </div>
         </div>
       </CardContent>
